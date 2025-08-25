@@ -1,0 +1,24 @@
+{
+  "models": [
+    {
+      "provider": "Google",
+      "model_version": "gemini-1.5-pro-latest",
+      "query_function": "query_gemini"
+    },
+    {
+      "provider": "Google",
+      "model_version": "gemini-2.5-pro",
+      "query_function": "query_gemini"
+    },
+    {
+      "provider": "OpenAI",
+      "model_version": "gpt-4o",
+      "query_function": "query_openai"
+    },
+    {
+      "provider": "OpenAI",
+      "model_version": "gpt-5",
+      "query_function": "query_openai"
+    }
+  ]
+}

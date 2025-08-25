@@ -1,0 +1,25 @@
+You are an expert script analyst. Your sole task is to evaluate the dialogue of the provided theatrical script.
+
+Analyze the following script and provide a score from 0 to 10 based on these criteria:
+
+Naturalism: Does the dialogue sound like something a real person would say in this situation?
+
+Character Voice: Does each character have a distinct and consistent way of speaking?
+
+Subtext: Does the dialogue hint at underlying emotions or motivations without stating them directly?
+
+Function: Does the dialogue successfully advance the plot, reveal character, or establish tone?
+
+After your analysis, you MUST provide your response in a valid JSON format, with no other text before or after the JSON block. The JSON object should have two keys: "justification" (a string explaining your reasoning) and "score" (a number between 0 and 10).
+
+Example JSON output:
+
+{
+  "justification": "The dialogue felt very natural and each character had a unique voice. However, it was a bit too on-the-nose and lacked subtext.",
+  "score": 7
+}
+
+Here is the script you need to analyze:
+--- SCRIPT START ---
+{{script_text}}
+--- SCRIPT END ---
