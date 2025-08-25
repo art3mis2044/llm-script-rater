@@ -1,0 +1,12 @@
+{
+  "raters": [
+    {
+      "name": "DialogueRater",
+      "prompt_file": "dialogue_rater_prompt.txt",
+      "weight": 1.5,
+      "provider": "Google",
+      "model_version": "gemini-2.5-flash-preview-05-20",
+      "query_function": "query_gemini"
+    }
+  ]
+}
