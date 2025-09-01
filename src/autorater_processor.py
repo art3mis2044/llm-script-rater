@@ -9,7 +9,7 @@
 # ├── config/
 # │   └── autoraters_config.json
 # ├── autorater_prompts/
-# │   └── dialogue_rater_prompt.txt
+# │   └── dialogue_rater.txt
 # │   └── ...
 # ├── script_responses/
 # │   └── prompt1_gpt-5.txt
@@ -23,6 +23,7 @@ import os
 import time
 import json
 import model_querier
+from typing import Optional
 
 # --- Configuration ---
 CONFIG_DIR = os.path.join(os.path.dirname(__file__), '..', 'config')
@@ -43,7 +44,7 @@ def load_config():
         print(f"Error: Could not decode JSON from {config_path}")
         return None
 
-def get_rater_prompt(filename: str) -> str:
+def get_rater_prompt(filename: str) -> Optional[str]:
     """Loads the text content of a rater prompt file."""
     prompt_path = os.path.join(PROMPTS_DIR, filename)
     try:
@@ -93,24 +94,51 @@ def run_all_raters():
             print(f"Running rater '{rater_name}' on '{script_filename}' using {model_version}...")
 
             rater_prompt_template = get_rater_prompt(rater_prompt_file)
+
             if not rater_prompt_template:
+                print(f"  -> Skipping rater '{rater_name}' because its prompt file could not be found.")
                 continue
 
-            # Inject the script content into the rater's prompt template
             full_prompt = rater_prompt_template.replace("{{script_text}}", script_content)
 
+            # --- FIX: Initialize raw_response to None before the try block ---
+            raw_response = None
             try:
                 # Dynamically get the correct query function and call it
                 query_function = getattr(model_querier, query_function_name)
                 raw_response = query_function(full_prompt, model_version=model_version)
 
-                # Save the raw JSON response from the rater
+                if not raw_response:
+                    print(f"  -> Error: Received an empty response from the API for rater '{rater_name}'. Skipping.")
+                    continue
+
+                # --- START: JSON CLEANING AND FORMATTING ---
+                # 1. Clean the response to extract just the JSON part.
+                cleaned_response = raw_response.strip()
+                if cleaned_response.startswith("```json"):
+                    cleaned_response = cleaned_response[7:] # handles ```json
+                elif cleaned_response.startswith("```"):
+                    cleaned_response = cleaned_response[3:]  # handles ```
+                if cleaned_response.endswith("```"):
+                    cleaned_response = cleaned_response[:-3]
+                cleaned_response = cleaned_response.strip()
+
+                # 2. Parse the cleaned string into a Python dictionary to validate it.
+                response_data = json.loads(cleaned_response)
+
+                # 3. Write the validated, perfectly formatted JSON to the file.
                 with open(output_path, 'w', encoding='utf-8') as out_f:
-                    out_f.write(raw_response)
+                    json.dump(response_data, out_f, indent=2)
+                # --- END: JSON CLEANING AND FORMATTING ---
+
                 print(f"  -> Saved rating to {output_path}")
 
             except AttributeError:
                 print(f"  -> Error: Query function '{query_function_name}' not found in model_querier.py.")
+            except json.JSONDecodeError:
+                # Now this reference is safe
+                error_snippet = raw_response[:100] if raw_response else "N/A"
+                print(f"  -> Error: Rater response for '{script_filename}' was not valid JSON after cleaning. Raw response: '{error_snippet}...'")
             except Exception as e:
                 print(f"  -> An error occurred: {e}")
 
@@ -120,3 +148,4 @@ def run_all_raters():
 
 if __name__ == "__main__":
     run_all_raters()
+
