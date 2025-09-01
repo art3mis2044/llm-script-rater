@@ -4,7 +4,7 @@ This project is a comprehensive framework for automatically benchmarking and ran
 
 ## Current Rankings
 
-[**Click here to view the live Leaderboard**](https://art3mis2044.github.io/llm-script-rater/)
+[**Click here to view the live Leaderboard **](https://art3mis2044.github.io/llm-script-rater/)
 
 *Note: The leaderboard is updated every time new results are pushed to the main branch.*
 
