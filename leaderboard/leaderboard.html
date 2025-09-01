@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art3mis2044 Theatrical Script Generation Leaderboard</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        header {
+            background-color: #4267B2;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        main {
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f5f6f7;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+        }
+        th:hover {
+            background-color: #e9ebee;
+        }
+        tr:nth-child(even) {
+            background-color: #f5f6f7;
+        }
+        tr:hover {
+            background-color: #e9ebee;
+        }
+        td:first-child, th:first-child {
+            width: 50px;
+            text-align: center;
+        }
+        .error-message {
+            color: #fa383e;
+            font-weight: bold;
+            text-align: center;
+            padding: 40px;
+        }
+        .loading-message {
+            text-align: center;
+            padding: 40px;
+            color: #606770;
+        }
+        .sort-indicator {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            margin-left: 5px;
+            vertical-align: middle;
+            opacity: 0.5;
+        }
+        .sorted-asc .sort-indicator,
+        .sorted-desc .sort-indicator {
+            opacity: 1;
+        }
+        .sorted-asc .sort-indicator {
+            border-bottom: 5px solid #4267B2;
+        }
+        .sorted-desc .sort-indicator {
+            border-top: 5px solid #4267B2;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Art3mis2044 Theatrical Script Generation Leaderboard</h1>
+    </header>
+    <main>
+        <div id="leaderboard-container">
+            <p class="loading-message">Loading leaderboard...</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    let leaderboardData = [];
+    let sortState = {
+        column: 'average_score',
+        direction: 'desc'
+    };
+
+    function displayLeaderboard() {
+        const container = document.getElementById('leaderboard-container');
+        if (!leaderboardData || leaderboardData.length === 0) {
+            container.innerHTML = '<p class="error-message">No leaderboard data available.</p>';
+            return;
+        }
+
+        let tableHtml = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-sort="rank">Rank<span class="sort-indicator"></span></th>
+                            <th data-sort="provider">Provider<span class="sort-indicator"></span></th>
+                            <th data-sort="model_version">Model Version<span class="sort-indicator"></span></th>
+                            <th data-sort="script_count">Scripts Rated<span class="sort-indicator"></span></th>
+                            <th data-sort="total_score">Total Score<span class="sort-indicator"></span></th>
+                            <th data-sort="average_score">Average Score<span class="sort-indicator"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+        leaderboardData.forEach((model, index) => {
+            const rank = sortState.column === 'rank' && sortState.direction === 'desc' ? leaderboardData.length - index : index + 1;
+            tableHtml += `
+                    <tr>
+                        <td>${rank}</td>
+                        <td>${model.provider}</td>
+                        <td>${model.model_version}</td>
+                        <td>${model.script_count}</td>
+                        <td>${model.total_score.toFixed(2)}</td>
+                        <td>${model.average_score.toFixed(2)}</td>
+                    </tr>
+                `;
+        });
+
+        tableHtml += '</tbody></table>';
+        container.innerHTML = tableHtml;
+
+        updateSortIndicators();
+        addSortEventListeners();
+    }
+
+    function sortLeaderboard(column) {
+        // Special handling for rank column
+        if (column === 'rank') {
+            if (sortState.column === column) {
+                sortState.direction = sortState.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortState.column = column;
+                sortState.direction = 'asc';
+            }
+            // Data is already sorted by rank (index), just need to reverse if 'desc'
+            displayLeaderboard();
+            return;
+        }
+
+        if (sortState.column === column) {
+            sortState.direction = sortState.direction === 'asc' ? 'desc' : 'asc';
+        } else {
+            sortState.column = column;
+            // Default to descending for scores, ascending for text
+            sortState.direction = (column.includes('score') || column.includes('count')) ? 'desc' : 'asc';
+        }
+
+        leaderboardData.sort((a, b) => {
+            const valA = a[sortState.column];
+            const valB = b[sortState.column];
+
+            if (typeof valA === 'number') {
+                comparison = valA - valB;
+            } else {
+                comparison = String(valA).localeCompare(String(valB));
+            }
+
+            return sortState.direction === 'asc' ? comparison : comparison * -1;
+        });
+
+        displayLeaderboard();
+    }
+
+    function updateSortIndicators() {
+        document.querySelectorAll('th').forEach(th => {
+            th.className = th.className.replace(/ sorted-asc| sorted-desc/g, '');
+            if (th.dataset.sort === sortState.column) {
+                th.classList.add(sortState.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
+            }
+        });
+    }
+
+    function addSortEventListeners() {
+        document.querySelectorAll('th[data-sort]').forEach(header => {
+            header.addEventListener('click', () => {
+                sortLeaderboard(header.dataset.sort);
+            });
+        });
+    }
+
+    async function fetchLeaderboard() {
+        try {
+            const response = await fetch('leaderboard.json');
+
+            // --- FIX: Simplified error handling without redundant throw ---
+            if (!response.ok) {
+                const errorText = `HTTP error! Status: ${response.status}`;
+                console.error('Failed to load leaderboard data:', errorText);
+                document.getElementById('leaderboard-container').innerHTML = `<p class="error-message">Failed to load leaderboard data. Please check the console.</p>`;
+                return; // Exit the function
+            }
+
+            leaderboardData = await response.json();
+            sortLeaderboard(sortState.column); // Perform initial sort and display
+        } catch (error) {
+            console.error('Failed to load leaderboard data:', error);
+            document.getElementById('leaderboard-container').innerHTML = `<p class="error-message">Failed to load leaderboard data. Please check the console.</p>`;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', fetchLeaderboard);
+</script>
+</body>
+</html>
+
