@@ -20,7 +20,6 @@
 import os
 import time
 import json
-# We are importing the functions from the other file we created.
 import model_querier
 
 # --- Configuration ---
@@ -98,8 +97,15 @@ def process_prompts():
                         print(f"  -> Error: Query function '{query_function_name}' not found in model_querier.py. Skipping.")
                         continue
 
+                    # Define the system prompt for script generation.
+                    system_prompt_for_generation = "You are a helpful assistant, skilled in creative writing and generating theatrical scripts."
+
                     # Call the function with the prompt and model version
-                    response = query_function(prompt_text, model_version=model_version)
+                    response = query_function(
+                        prompt_text,
+                        model_version=model_version,
+                        system_prompt=system_prompt_for_generation
+                    )
 
                     with open(output_path, 'w', encoding='utf-8') as out_f:
                         out_f.write(response)
@@ -116,3 +122,4 @@ def process_prompts():
 
 if __name__ == "__main__":
     process_prompts()
+

@@ -184,6 +184,7 @@
         leaderboardData.sort((a, b) => {
             const valA = a[sortState.column];
             const valB = b[sortState.column];
+            let comparison = 0;
 
             if (typeof valA === 'number') {
                 comparison = valA - valB;
@@ -218,7 +219,6 @@
         try {
             const response = await fetch('leaderboard.json');
 
-            // --- FIX: Simplified error handling without redundant throw ---
             if (!response.ok) {
                 const errorText = `HTTP error! Status: ${response.status}`;
                 console.error('Failed to load leaderboard data:', errorText);
@@ -227,7 +227,8 @@
             }
 
             leaderboardData = await response.json();
-            sortLeaderboard(sortState.column); // Perform initial sort and display
+            // --- FIX: Display the pre-sorted data directly on load ---
+            displayLeaderboard();
         } catch (error) {
             console.error('Failed to load leaderboard data:', error);
             document.getElementById('leaderboard-container').innerHTML = `<p class="error-message">Failed to load leaderboard data. Please check the console.</p>`;
