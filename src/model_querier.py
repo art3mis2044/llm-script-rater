@@ -19,74 +19,75 @@ import os
 import google.generativeai as genai
 from openai import OpenAI
 from dotenv import load_dotenv
+from typing import Optional
 
 # Load environment variables from a .env file
 load_dotenv()
 
-def query_gemini(prompt_text: str, model_version: str) -> str:
+def query_gemini(prompt_text: str, model_version: str, system_prompt: Optional[str] = None) -> str:
     """
     Sends a prompt to a specified Gemini model and returns the response.
 
     Args:
         prompt_text: The text prompt to send to the model.
         model_version: The specific Gemini model to use (e.g., 'gemini-1.5-pro-latest').
+        system_prompt: An optional system message. For Gemini, this is prepended to the user prompt.
 
     Returns:
         The generated text from the model as a string.
         Returns an error message if the API call fails.
     """
     try:
-        # Configure the Gemini API key
         google_api_key = os.getenv("GOOGLE_API_KEY")
         if not google_api_key:
             return "Error: GOOGLE_API_KEY not found in environment variables."
         genai.configure(api_key=google_api_key)
 
-        # Initialize the specified model
         model = genai.GenerativeModel(model_version)
 
-        # Generate the content
-        response = model.generate_content(prompt_text)
+        # For Gemini, we combine the system and user prompts into a single prompt.
+        if system_prompt:
+            full_prompt = f"{system_prompt}\n\n{prompt_text}"
+        else:
+            full_prompt = prompt_text
+
+        response = model.generate_content(full_prompt)
 
         return response.text
 
     except Exception as e:
         return f"An error occurred with the Gemini API: {e}"
 
-def query_openai(prompt_text: str, model_version: str) -> str:
+def query_openai(prompt_text: str, model_version: str, system_prompt: Optional[str] = None) -> str:
     """
     Sends a prompt to a specified OpenAI GPT model and returns the response.
 
     Args:
-        prompt_text: The text prompt to send to the model.
-        model_version: The specific GPT model to use (e.g., 'gpt-4o', 'gpt-5').
+        prompt_text: The text prompt to send to the model (user message).
+        model_version: The specific GPT model to use (e.g., 'gpt-4o').
+        system_prompt: An optional system message to guide the model's behavior.
 
     Returns:
         The generated text from the model as a string.
         Returns an error message if the API call fails.
     """
     try:
-        # The OpenAI library automatically looks for the OPENAI_API_KEY
-        # environment variable, so no explicit configuration is needed if it's set.
         openai_api_key = os.getenv("OPENAI_API_KEY")
         if not openai_api_key:
             return "Error: OPENAI_API_KEY not found in environment variables."
 
         client = OpenAI(api_key=openai_api_key)
 
-        # Create the chat completion request
+        messages = []
+        # Only add a system message if one is provided.
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+
+        messages.append({"role": "user", "content": prompt_text})
+
         chat_completion = client.chat.completions.create(
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a helpful assistant, skilled in creative writing and generating theatrical scripts.",
-                },
-                {
-                    "role": "user",
-                    "content": prompt_text,
-                }
-            ],
-            model=model_version, # Use the specified model version
+            messages=messages,
+            model=model_version,
         )
 
         return chat_completion.choices[0].message.content
@@ -96,24 +97,21 @@ def query_openai(prompt_text: str, model_version: str) -> str:
 
 # --- Example Usage ---
 if __name__ == "__main__":
-    # A sample prompt for generating a short script scene
-    script_prompt = """
-    Write a short theatrical scene (1-2 pages) with two characters:
-    - ANNA (30s), a pragmatic and slightly stressed architect.
-    - LEO (30s), her free-spirited and perpetually optimistic brother.
-    
-    Setting: A cluttered attic.
-    
-    Situation: They are sorting through their late grandmother's belongings and discover a locked, ornate wooden box. Anna wants to find the key; Leo wants to break it open.
-    """
+    script_prompt = "Write a short theatrical scene with two characters..." # Omitted for brevity
 
-    gemini_model_to_test = "gemini-1.5-pro-latest"
-    print(f"--- Querying {gemini_model_to_test} ---")
-    gemini_response = query_gemini(script_prompt, model_version=gemini_model_to_test)
-    print(gemini_response)
-    print("\n" + "="*50 + "\n")
+    # Example for Gemini with a system prompt
+    gemini_response = query_gemini(
+        prompt_text=script_prompt,
+        model_version="gemini-1.5-pro-latest",
+        system_prompt="Your response should be in the style of a 1940s noir film."
+    )
+    print(f"--- Gemini Response ---\n{gemini_response}\n")
 
-    openai_model_to_test = "gpt-5"
-    print(f"--- Querying {openai_model_to_test} ---")
-    openai_response = query_openai(script_prompt, model_version=openai_model_to_test)
-    print(openai_response)
+    # Example for OpenAI (unchanged, but now consistent)
+    openai_response = query_openai(
+        prompt_text=script_prompt,
+        model_version="gpt-4o",
+        system_prompt="Your response should be in the style of a Shakespearean comedy."
+    )
+    print(f"--- OpenAI Response ---\n{openai_response}\n")
+

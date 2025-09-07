@@ -12,7 +12,7 @@ from collections import defaultdict
 # --- Configuration ---
 CONFIG_DIR = os.path.join(os.path.dirname(__file__), '..', 'config')
 RATINGS_DIR = os.path.join(os.path.dirname(__file__), '..', 'autorater_responses')
-LEADERBOARD_DIR = os.path.join(os.path.dirname(__file__), '..', 'leaderboard')
+LEADERBOARD_DIR = os.path.join(os.path.dirname(__file__), '..', 'docs')
 OUTPUT_FILE = os.path.join(LEADERBOARD_DIR, 'leaderboard.json')
 
 def load_config(filename):

@@ -2,29 +2,29 @@
   {
     "model_version": "gpt-5",
     "provider": "OpenAI",
-    "total_score": 14.25,
-    "average_score": 14.25,
-    "script_count": 1
-  },
-  {
-    "model_version": "gemini-1.5-pro-latest",
-    "provider": "Google",
-    "total_score": 13.5,
-    "average_score": 13.5,
+    "total_score": 33.25,
+    "average_score": 33.25,
     "script_count": 1
   },
   {
     "model_version": "gemini-2.5-pro",
     "provider": "Google",
-    "total_score": 13.5,
-    "average_score": 13.5,
+    "total_score": 30.5,
+    "average_score": 30.5,
+    "script_count": 1
+  },
+  {
+    "model_version": "gemini-1.5-pro-latest",
+    "provider": "Google",
+    "total_score": 28.5,
+    "average_score": 28.5,
     "script_count": 1
   },
   {
     "model_version": "gpt-4o",
     "provider": "OpenAI",
-    "total_score": 13.5,
-    "average_score": 13.5,
+    "total_score": 28.5,
+    "average_score": 28.5,
     "script_count": 1
   }
 ]

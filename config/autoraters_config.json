@@ -7,6 +7,14 @@
       "provider": "Google",
       "model_version": "gemini-2.5-flash-preview-05-20",
       "query_function": "query_gemini"
+    },
+    {
+      "name": "PlotLogicRater",
+      "prompt_file": "plot_logic_rater_prompt.txt",
+      "weight": 2.0,
+      "provider": "openai",
+      "model_version": "gpt-4o",
+      "query_function": "query_openai"
     }
   ]
 }
