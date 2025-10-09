@@ -13,8 +13,48 @@
       "prompt_file": "plot_logic_rater_prompt.txt",
       "weight": 2.0,
       "provider": "openai",
-      "model_version": "gpt-4o",
-      "query_function": "query_openai"
+      "model_version": "gemini-2.5-flash-preview-05-20",
+      "query_function": "query_gemini"
+    },
+    {
+      "name": "CharacterRater",
+      "prompt_file": "character_rater_prompt.txt",
+      "weight": 1.0,
+      "provider": "openai",
+      "model_version": "gemini-2.5-flash-preview-05-20",
+      "query_function": "query_gemini"
+    },
+    {
+      "name": "FormattingRater",
+      "prompt_file": "formatting_rater_prompt.txt",
+      "weight": 0.5,
+      "provider": "google",
+      "model_version": "gemini-2.5-flash-preview-05-20",
+      "query_function": "query_gemini"
+    },
+    {
+      "name": "OriginalityRater",
+      "prompt_file": "originality_rater_prompt.txt",
+      "weight": 1.5,
+      "provider": "google",
+      "model_version": "gemini-2.5-flash-preview-05-20",
+      "query_function": "query_gemini"
+    },
+    {
+      "name": "StructureRater",
+      "prompt_file": "structure_rater_prompt.txt",
+      "weight": 1.0,
+      "provider": "google",
+      "model_version": "gemini-2.5-flash-preview-05-20",
+      "query_function": "query_gemini"
+    },
+    {
+      "name": "ImpactRater",
+      "prompt_file": "emotionalimpact_rater_prompt.txt",
+      "weight": 1.5,
+      "provider": "google",
+      "model_version": "gemini-2.5-flash-preview-05-20",
+      "query_function": "query_gemini"
     }
   ]
 }
