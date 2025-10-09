@@ -19,6 +19,16 @@
       "provider": "OpenAI",
       "model_version": "gpt-5",
       "query_function": "query_openai"
+    },
+    {
+      "provider": "Anthropic",
+      "model_version": "claude-sonnet-4-5-20250929",
+      "query_function": "query_anthropic"
+    },
+    {
+      "provider": "Anthropic",
+      "model_version": "claude-opus-4-1-20250805",
+      "query_function": "query_anthropic"
     }
   ]
 }
