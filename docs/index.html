@@ -6,24 +6,41 @@
     <title>Art3mis2044 Theatrical Script Generation Leaderboard</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: "Times New Roman", Times, serif;
             margin: 0;
-            background-color: #f0f2f5;
             color: #1c1e21;
             display: flex;
-            justify-content: center;
+            flex-direction: column; /* Allow vertical stacking */
+            align-items: center; /* Center items horizontally */
             padding: 20px;
+            /* New Background */
+            background-image: url('https://storage.googleapis.com/gemini-prod/images/2025/10/12/image_1728777771.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        /* Added an overlay for readability */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
         }
         .container {
             width: 100%;
             max-width: 900px;
-            background-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.95); /* Slightly less transparent */
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             overflow: hidden;
+            margin-bottom: 20px; /* Space between leaderboard and image */
         }
         header {
-            background-color: #4267B2;
+            background-color: #4B0082; /* Dark Purple */
             color: white;
             padding: 20px;
             text-align: center;
@@ -55,7 +72,7 @@
             background-color: #e9ebee;
         }
         tr:nth-child(even) {
-            background-color: #f5f6f7;
+            background-color: rgba(245, 246, 247, 0.8);
         }
         tr:hover {
             background-color: #e9ebee;
@@ -63,6 +80,18 @@
         td:first-child, th:first-child {
             width: 50px;
             text-align: center;
+        }
+        /* New section for the image */
+        .image-section {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+        }
+        .image-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
         .error-message {
             color: #fa383e;
@@ -90,10 +119,10 @@
             opacity: 1;
         }
         .sorted-asc .sort-indicator {
-            border-bottom: 5px solid #4267B2;
+            border-bottom: 5px solid #4B0082;
         }
         .sorted-desc .sort-indicator {
-            border-top: 5px solid #4267B2;
+            border-top: 5px solid #4B0082;
         }
     </style>
 </head>
@@ -107,6 +136,11 @@
             <p class="loading-message">Loading leaderboard...</p>
         </div>
     </main>
+</div>
+
+<!-- New section for the image -->
+<div class="image-section">
+    <img src="art3mis.png" alt="Project visualization image">
 </div>
 
 <script>

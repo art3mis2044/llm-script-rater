@@ -2,7 +2,7 @@
 #
 # This script processes all the individual rater responses, applies the
 # configured weights, and calculates a final score for each model. It
-# now includes provider info, script counts, and total scores in the final output.
+# now includes a detailed breakdown of scores per rater in the final output.
 #
 
 import os
@@ -27,7 +27,8 @@ def load_config(filename):
 
 def calculate_leaderboard():
     """
-    Calculates the weighted scores for each model and generates the leaderboard data.
+    Calculates the weighted scores for each model and generates the leaderboard data,
+    including a per-rater breakdown.
     """
     rater_config = load_config('autoraters_config.json')
     models_config = load_config('models_config.json')
@@ -36,11 +37,11 @@ def calculate_leaderboard():
         print("Could not load configuration files. Aborting.")
         return
 
-    # Create mappings for easy lookup
     rater_weights = {rater['name']: rater['weight'] for rater in rater_config.get('raters', [])}
     model_providers = {model['model_version']: model['provider'] for model in models_config.get('models', [])}
 
-    model_scores = defaultdict(lambda: defaultdict(list))
+    # Store more detailed rating information
+    model_ratings = defaultdict(list)
 
     # --- Step 1: Ingest all rater responses ---
     for filename in os.listdir(RATINGS_DIR):
@@ -60,35 +61,54 @@ def calculate_leaderboard():
                 rating_data = json.load(f)
 
             score = float(rating_data.get('score', 0))
-            weight = float(rater_weights.get(rater_name, 1.0))
-            weighted_score = score * weight
-
-            model_scores[model_version][script_base_info].append(weighted_score)
+            model_ratings[model_version].append({
+                "script": script_base_info,
+                "rater": rater_name,
+                "score": score
+            })
 
         except (json.JSONDecodeError, ValueError, KeyError) as e:
             print(f"Warning: Could not process file {filename}. Error: {e}")
 
-    # --- Step 2: Calculate the final score for each script and then average for each model ---
+    # --- Step 2: Calculate final stats for each model ---
     final_model_stats = []
-    for model_version, script_ratings in model_scores.items():
-        total_script_scores = []
-        for script_base_info, weighted_scores in script_ratings.items():
-            final_script_score = sum(weighted_scores)
-            total_script_scores.append(final_script_score)
+    for model_version, ratings in model_ratings.items():
+        if not ratings: continue
 
-        if total_script_scores:
-            total_score = sum(total_script_scores)
-            script_count = len(total_script_scores)
-            average_score = total_score / script_count
-            provider = model_providers.get(model_version, "Unknown")
+        # Calculate total and average scores
+        script_scores = defaultdict(float)
+        for rating in ratings:
+            weight = rater_weights.get(rating['rater'], 1.0)
+            script_scores[rating['script']] += rating['score'] * weight
 
-            final_model_stats.append({
-                "model_version": model_version,
-                "provider": provider,
-                "total_score": total_score,
-                "average_score": average_score,
-                "script_count": script_count
+        total_score = sum(script_scores.values())
+        script_count = len(script_scores)
+        average_score = total_score / script_count if script_count > 0 else 0
+
+        # Calculate per-rater average scores
+        rater_scores = defaultdict(list)
+        for rating in ratings:
+            rater_scores[rating['rater']].append(rating['score'])
+
+        detailed_scores = []
+        for rater_name, scores in rater_scores.items():
+            avg_rater_score = sum(scores) / len(scores) if scores else 0
+            detailed_scores.append({
+                "rater_name": rater_name,
+                "average_score": avg_rater_score
             })
+        detailed_scores.sort(key=lambda x: x['rater_name'])
+
+
+        final_model_stats.append({
+            "model_version": model_version,
+            "provider": model_providers.get(model_version, "Unknown"),
+            "total_score": total_score,
+            "average_score": average_score,
+            "script_count": script_count,
+            "raters_used_count": len(detailed_scores),
+            "detailed_scores": detailed_scores
+        })
 
     # --- Step 3: Sort the leaderboard by average_score ---
     final_model_stats.sort(key=lambda x: x['average_score'], reverse=True)
@@ -101,8 +121,7 @@ def calculate_leaderboard():
         json.dump(final_model_stats, f, indent=2)
 
     print(f"\nLeaderboard successfully generated at: {OUTPUT_FILE}")
-    for i, entry in enumerate(final_model_stats, 1):
-        print(f"  {i}. {entry['model_version']} ({entry['provider']}) | Total: {entry['total_score']:.2f} | Avg: {entry['average_score']:.2f} ({entry['script_count']} scripts)")
 
 if __name__ == "__main__":
     calculate_leaderboard()
+
