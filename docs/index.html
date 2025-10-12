@@ -59,16 +59,77 @@
         th:hover {
             background-color: #e9ebee;
         }
-        tr:nth-child(even) {
+        tr:nth-child(even):not(.details-row) {
             background-color: rgba(245, 246, 247, 0.8);
         }
-        tr:hover {
+        .model-row:hover {
             background-color: #e9ebee;
         }
         td:first-child, th:first-child {
-            width: 50px;
+            width: 80px;
             text-align: center;
         }
+        .model-row {
+            cursor: pointer;
+        }
+        .arrow {
+            display: inline-block;
+            width: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #4B0082;
+            font-weight: bold;
+            transition: transform 0.2s ease-in-out;
+        }
+        .arrow.expanded {
+            transform: rotate(90deg);
+        }
+        .details-row > td {
+            padding: 0;
+            border-bottom: none;
+        }
+        .details-container {
+            margin: 10px 20px 10px 60px; /* Indentation */
+            padding: 15px 20px;
+            background-color: #fdfcff;
+            border-left: 4px solid #4B0082;
+            border-radius: 8px;
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .details-container h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #4B0082;
+        }
+        .details-container table {
+            font-size: 13px;
+            table-layout: fixed;
+            width: 100%;
+        }
+        .details-container th, .details-container td {
+            border: none;
+            padding: 8px 12px;
+        }
+        .details-container th {
+            color: #606770;
+            font-weight: 600;
+            cursor: default;
+        }
+        .details-container th:hover {
+            background-color: transparent;
+        }
+        .details-container tr:nth-child(even) {
+            background-color: rgba(230, 230, 250, 0.4);
+        }
+        .details-container .rater-name-col {
+            width: 50%;
+        }
+        .details-container .rater-score-col {
+            width: 25%;
+            text-align: right;
+            padding-right: 15px;
+        }
+
         /* Section for the link */
         .info-section {
             padding: 20px;
@@ -167,15 +228,15 @@
         }
 
         let tableHtml = `
-                <table>
+                <table class="leaderboard-table">
                     <thead>
                         <tr>
                             <th data-sort="rank">Rank<span class="sort-indicator"></span></th>
                             <th data-sort="provider">Provider<span class="sort-indicator"></span></th>
                             <th data-sort="model_version">Model Version<span class="sort-indicator"></span></th>
-                            <th data-sort="script_count">Scripts Rated<span class="sort-indicator"></span></th>
+                            <th data-sort="script_count">Scripts<span class="sort-indicator"></span></th>
                             <th data-sort="total_score">Total Score<span class="sort-indicator"></span></th>
-                            <th data-sort="average_score">Average Score<span class="sort-indicator"></span></th>
+                            <th data-sort="average_score">Avg Score<span class="sort-indicator"></span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -183,16 +244,53 @@
 
         leaderboardData.forEach((model, index) => {
             const rank = sortState.column === 'rank' && sortState.direction === 'desc' ? leaderboardData.length - index : index + 1;
+
             tableHtml += `
-                    <tr>
-                        <td>${rank}</td>
+                    <tr class="model-row" data-model-version="${model.model_version}">
+                        <td><span class="arrow">▶</span> ${rank}</td>
                         <td>${model.provider}</td>
                         <td>${model.model_version}</td>
-                        <td>${model.script_count}</td>
+                        <td style="text-align: center;">${model.script_count}</td>
                         <td>${model.total_score.toFixed(2)}</td>
                         <td>${model.average_score.toFixed(2)}</td>
                     </tr>
                 `;
+
+            if (model.rater_breakdown && model.rater_breakdown.length > 0) {
+                let detailsTable = `
+                    <div class="details-container">
+                        <h4>Rater Breakdown (Weighted)</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="rater-name-col">Rater</th>
+                                    <th class="rater-score-col">Total Score</th>
+                                    <th class="rater-score-col">Average Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>`;
+                model.rater_breakdown.forEach(rater => {
+                    detailsTable += `
+                        <tr>
+                            <td class="rater-name-col">${rater.rater_name}</td>
+                            <td class="rater-score-col">${rater.total_score.toFixed(2)}</td>
+                            <td class="rater-score-col">${rater.average_score.toFixed(2)}</td>
+                        </tr>`;
+                });
+                detailsTable += '</tbody></table></div>';
+
+                tableHtml += `
+                    <tr class="details-row" id="details-${model.model_version}" style="display: none;">
+                        <td colspan="6">${detailsTable}</td>
+                    </tr>
+                `;
+            } else {
+                tableHtml += `
+                    <tr class="details-row" id="details-${model.model_version}" style="display: none;">
+                        <td colspan="6"><div class="details-container"><p>No rater breakdown available.</p></div></td>
+                    </tr>
+                `;
+            }
         });
 
         tableHtml += '</tbody></table>';
@@ -200,10 +298,28 @@
 
         updateSortIndicators();
         addSortEventListeners();
+        addToggleEventListeners();
+    }
+
+    function addToggleEventListeners() {
+        document.querySelectorAll('.model-row').forEach(row => {
+            row.addEventListener('click', (event) => {
+                if (event.target.tagName.toLowerCase() !== 'th') {
+                    const modelVersion = row.dataset.modelVersion;
+                    const detailsRow = document.getElementById(`details-${modelVersion}`);
+                    const arrow = row.querySelector('.arrow');
+
+                    if (detailsRow) {
+                        const isHidden = detailsRow.style.display === 'none';
+                        detailsRow.style.display = isHidden ? 'table-row' : 'none';
+                        arrow.classList.toggle('expanded', isHidden);
+                    }
+                }
+            });
+        });
     }
 
     function sortLeaderboard(column) {
-        // Special handling for rank column
         if (column === 'rank') {
             if (sortState.column === column) {
                 sortState.direction = sortState.direction === 'asc' ? 'desc' : 'asc';
@@ -211,7 +327,6 @@
                 sortState.column = column;
                 sortState.direction = 'asc';
             }
-            // Data is already sorted by rank (index), just need to reverse if 'desc'
             displayLeaderboard();
             return;
         }
@@ -220,7 +335,6 @@
             sortState.direction = sortState.direction === 'asc' ? 'desc' : 'asc';
         } else {
             sortState.column = column;
-            // Default to descending for scores, ascending for text
             sortState.direction = (column.includes('score') || column.includes('count')) ? 'desc' : 'asc';
         }
 
@@ -260,17 +374,16 @@
 
     async function fetchLeaderboard() {
         try {
-            const response = await fetch('leaderboard.json');
+            const response = await fetch('leaderboard.json?cachebust=' + new Date().getTime());
 
             if (!response.ok) {
                 const errorText = `HTTP error! Status: ${response.status}`;
                 console.error('Failed to load leaderboard data:', errorText);
                 document.getElementById('leaderboard-container').innerHTML = `<p class="error-message">Failed to load leaderboard data. Please check the console.</p>`;
-                return; // Exit the function
+                return;
             }
 
             leaderboardData = await response.json();
-            // --- FIX: Display the pre-sorted data directly on load ---
             displayLeaderboard();
         } catch (error) {
             console.error('Failed to load leaderboard data:', error);
@@ -282,3 +395,5 @@
 </script>
 </body>
 </html>
+
+
