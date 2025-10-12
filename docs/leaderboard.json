@@ -2,43 +2,43 @@
   {
     "model_version": "gpt-5",
     "provider": "OpenAI",
-    "total_score": 160.75,
-    "average_score": 80.375,
-    "script_count": 2
+    "total_score": 460.1,
+    "average_score": 76.68333333333334,
+    "script_count": 6
   },
   {
     "model_version": "gemini-2.5-pro",
     "provider": "Google",
-    "total_score": 146.3,
-    "average_score": 73.15,
-    "script_count": 2
-  },
-  {
-    "model_version": "claude-sonnet-4-5-20250929",
-    "provider": "Anthropic",
-    "total_score": 144.60000000000002,
-    "average_score": 72.30000000000001,
-    "script_count": 2
+    "total_score": 444.25,
+    "average_score": 74.04166666666667,
+    "script_count": 6
   },
   {
     "model_version": "claude-opus-4-1-20250805",
     "provider": "Anthropic",
-    "total_score": 143.8,
-    "average_score": 71.9,
-    "script_count": 2
+    "total_score": 408.15,
+    "average_score": 68.02499999999999,
+    "script_count": 6
+  },
+  {
+    "model_version": "claude-sonnet-4-5-20250929",
+    "provider": "Anthropic",
+    "total_score": 403.1,
+    "average_score": 67.18333333333334,
+    "script_count": 6
   },
   {
     "model_version": "gpt-4o",
     "provider": "OpenAI",
-    "total_score": 119.80000000000001,
-    "average_score": 59.900000000000006,
-    "script_count": 2
+    "total_score": 353.05,
+    "average_score": 58.84166666666667,
+    "script_count": 6
   },
   {
     "model_version": "gemini-1.5-pro-latest",
     "provider": "Google",
     "total_score": 68.55,
-    "average_score": 34.275,
-    "script_count": 2
+    "average_score": 11.424999999999999,
+    "script_count": 6
   }
 ]
