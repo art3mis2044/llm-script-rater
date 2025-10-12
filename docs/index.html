@@ -14,30 +14,18 @@
             align-items: center; /* Center items horizontally */
             padding: 20px;
             /* New Background */
-            background-image: url('https://storage.googleapis.com/gemini-prod/images/2025/10/12/image_1728777771.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-color: #E6E6FA; /* Light Lavender */
         }
-        /* Added an overlay for readability */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: -1;
-        }
-        .container {
+        /* This rule ensures both containers have the same dimensions */
+        .container, .info-section {
             width: 100%;
             max-width: 900px;
-            background-color: rgba(255, 255, 255, 0.95); /* Slightly less transparent */
+            background-color: rgba(255, 255, 255, 0.95);
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             overflow: hidden;
-            margin-bottom: 20px; /* Space between leaderboard and image */
+            margin-bottom: 20px; /* Space between elements */
+            box-sizing: border-box; /* Ensures padding/border are included in width */
         }
         header {
             background-color: #4B0082; /* Dark Purple */
@@ -81,7 +69,25 @@
             width: 50px;
             text-align: center;
         }
-        /* New section for the image */
+        /* Section for the link */
+        .info-section {
+            padding: 20px;
+            text-align: center;
+        }
+        .info-section p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .info-section a {
+            color: #4B0082;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .info-section a:hover {
+            text-decoration: underline;
+        }
+        /* Section for the image */
         .image-section {
             width: 100%;
             max-width: 900px;
@@ -138,7 +144,10 @@
     </main>
 </div>
 
-<!-- New section for the image -->
+<div class="info-section">
+    <p>For more information and for a description of the project, please go to the <a href="https://github.com/art3mis2044/llm-script-rater/" target="_blank">llm-script-rater github page</a>.</p>
+</div>
+
 <div class="image-section">
     <img src="art3mis.png" alt="Project visualization image">
 </div>
@@ -273,4 +282,3 @@
 </script>
 </body>
 </html>
-
