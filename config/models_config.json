@@ -2,11 +2,6 @@
   "models": [
     {
       "provider": "Google",
-      "model_version": "gemini-1.5-pro-latest",
-      "query_function": "query_gemini"
-    },
-    {
-      "provider": "Google",
       "model_version": "gemini-2.5-pro",
       "query_function": "query_gemini"
     },
