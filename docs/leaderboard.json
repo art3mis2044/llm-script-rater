@@ -218,49 +218,5 @@
         "average_score": 6.483333333333333
       }
     ]
-  },
-  {
-    "model_version": "gemini-1.5-pro-latest",
-    "provider": "Google",
-    "total_score": 68.55,
-    "average_score": 11.424999999999999,
-    "script_count": 6,
-    "rater_breakdown": [
-      {
-        "rater_name": "CharacterRater",
-        "total_score": 8.8,
-        "average_score": 1.4666666666666668
-      },
-      {
-        "rater_name": "DialogueRater",
-        "total_score": 13.5,
-        "average_score": 2.25
-      },
-      {
-        "rater_name": "FormattingRater",
-        "total_score": 1.75,
-        "average_score": 0.2916666666666667
-      },
-      {
-        "rater_name": "ImpactRater",
-        "total_score": 12.75,
-        "average_score": 2.125
-      },
-      {
-        "rater_name": "OriginalityRater",
-        "total_score": 5.25,
-        "average_score": 0.875
-      },
-      {
-        "rater_name": "PlotLogicRater",
-        "total_score": 17.0,
-        "average_score": 2.8333333333333335
-      },
-      {
-        "rater_name": "StructureRater",
-        "total_score": 9.5,
-        "average_score": 1.5833333333333333
-      }
-    ]
   }
 ]

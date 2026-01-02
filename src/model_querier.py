@@ -146,7 +146,7 @@ if __name__ == "__main__":
     # Example for Gemini with a system prompt
     gemini_response = query_gemini(
         prompt_text=script_prompt,
-        model_version="gemini-1.5-pro-latest",
+        model_version="gemini-2.5-pro",
         system_prompt="Your response should be in the style of a 1940s noir film."
     )
     print(f"--- Gemini Response ---\n{gemini_response}\n")
