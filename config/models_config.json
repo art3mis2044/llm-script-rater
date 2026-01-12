@@ -6,6 +6,11 @@
       "query_function": "query_gemini"
     },
     {
+      "provider": "Google",
+      "model_version": "gemini-3-pro-preview",
+      "query_function": "query_gemini"
+    },
+    {
       "provider": "OpenAI",
       "model_version": "gpt-4o",
       "query_function": "query_openai"

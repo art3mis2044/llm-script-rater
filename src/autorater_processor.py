@@ -29,6 +29,7 @@ from typing import Optional
 CONFIG_DIR = os.path.join(os.path.dirname(__file__), '..', 'config')
 PROMPTS_DIR = os.path.join(os.path.dirname(__file__), '..', 'autorater_prompts')
 SCRIPTS_DIR = os.path.join(os.path.dirname(__file__), '..', 'script_responses')
+SCRIPT_PROMPTS_DIR = os.path.join(os.path.dirname(__file__), '..', 'script_prompts') # Added directory
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), '..', 'autorater_responses')
 
 def load_config():
@@ -105,7 +106,26 @@ def run_all_raters():
                     continue
 
                 system_instructions = prompt_parts[0].strip()
-                user_content = script_content  # The user prompt is just the script content.
+
+                # Logic to optionally include the original prompt
+                if rater.get("include_original_script_prompt") == "yes":
+                    # Determine original prompt file from script filename (e.g., prompt1_gpt-4o.txt -> prompt1.txt)
+                    prompt_id = script_filename.split('_')[0]
+                    original_prompt_path = os.path.join(SCRIPT_PROMPTS_DIR, f"{prompt_id}.txt")
+
+                    try:
+                        with open(original_prompt_path, 'r', encoding='utf-8') as opf:
+                            original_prompt_text = opf.read()
+
+                        user_content = (
+                            f"Original Script Prompt:\n\n\n{original_prompt_text}\n"
+                            f"Original Script Response:\n\n\n{script_content}"
+                        )
+                    except FileNotFoundError:
+                        print(f"  -> Warning: Original prompt file not found at {original_prompt_path}. Using script content only.")
+                        user_content = script_content
+                else:
+                    user_content = script_content
 
                 query_function = getattr(model_querier, query_function_name)
 
@@ -153,4 +173,3 @@ def run_all_raters():
 
 if __name__ == "__main__":
     run_all_raters()
-

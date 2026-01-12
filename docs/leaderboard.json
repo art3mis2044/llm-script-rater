@@ -2,220 +2,264 @@
   {
     "model_version": "gpt-5",
     "provider": "OpenAI",
-    "total_score": 460.09999999999997,
-    "average_score": 76.68333333333332,
-    "script_count": 6,
+    "total_score": 490.0,
+    "average_score": 70.0,
+    "script_count": 7,
     "rater_breakdown": [
       {
         "rater_name": "CharacterRater",
-        "total_score": 53.9,
-        "average_score": 8.983333333333333
+        "total_score": 60.6,
+        "average_score": 8.657142857142857
       },
       {
         "rater_name": "DialogueRater",
-        "total_score": 81.75,
-        "average_score": 13.625
+        "total_score": 84.0,
+        "average_score": 12.0
       },
       {
         "rater_name": "FormattingRater",
-        "total_score": 11.85,
-        "average_score": 1.9749999999999999
+        "total_score": 7.5,
+        "average_score": 1.0714285714285714
       },
       {
         "rater_name": "ImpactRater",
-        "total_score": 81.45,
-        "average_score": 13.575000000000001
+        "total_score": 91.2,
+        "average_score": 13.028571428571428
       },
       {
         "rater_name": "OriginalityRater",
-        "total_score": 65.25,
-        "average_score": 10.875
+        "total_score": 59.1,
+        "average_score": 8.442857142857143
       },
       {
         "rater_name": "PlotLogicRater",
-        "total_score": 109.2,
-        "average_score": 18.2
+        "total_score": 125.4,
+        "average_score": 17.914285714285715
       },
       {
         "rater_name": "StructureRater",
-        "total_score": 56.7,
-        "average_score": 9.450000000000001
+        "total_score": 62.2,
+        "average_score": 8.885714285714286
+      }
+    ]
+  },
+  {
+    "model_version": "gemini-3-pro-preview",
+    "provider": "Google",
+    "total_score": 468.95,
+    "average_score": 66.99285714285715,
+    "script_count": 7,
+    "rater_breakdown": [
+      {
+        "rater_name": "CharacterRater",
+        "total_score": 57.3,
+        "average_score": 8.185714285714285
+      },
+      {
+        "rater_name": "DialogueRater",
+        "total_score": 75.75,
+        "average_score": 10.821428571428571
+      },
+      {
+        "rater_name": "FormattingRater",
+        "total_score": 12.75,
+        "average_score": 1.8214285714285714
+      },
+      {
+        "rater_name": "ImpactRater",
+        "total_score": 84.75,
+        "average_score": 12.107142857142858
+      },
+      {
+        "rater_name": "OriginalityRater",
+        "total_score": 47.1,
+        "average_score": 6.728571428571429
+      },
+      {
+        "rater_name": "PlotLogicRater",
+        "total_score": 130.4,
+        "average_score": 18.62857142857143
+      },
+      {
+        "rater_name": "StructureRater",
+        "total_score": 60.9,
+        "average_score": 8.7
       }
     ]
   },
   {
     "model_version": "gemini-2.5-pro",
     "provider": "Google",
-    "total_score": 444.25,
-    "average_score": 74.04166666666667,
-    "script_count": 6,
+    "total_score": 466.34999999999997,
+    "average_score": 66.62142857142857,
+    "script_count": 7,
     "rater_breakdown": [
       {
         "rater_name": "CharacterRater",
-        "total_score": 54.400000000000006,
-        "average_score": 9.066666666666668
+        "total_score": 56.699999999999996,
+        "average_score": 8.1
       },
       {
         "rater_name": "DialogueRater",
-        "total_score": 81.75,
-        "average_score": 13.625
+        "total_score": 77.25,
+        "average_score": 11.035714285714286
       },
       {
         "rater_name": "FormattingRater",
-        "total_score": 10.5,
-        "average_score": 1.75
+        "total_score": 12.75,
+        "average_score": 1.8214285714285714
       },
       {
         "rater_name": "ImpactRater",
-        "total_score": 79.35,
-        "average_score": 13.225
+        "total_score": 86.69999999999999,
+        "average_score": 12.385714285714284
       },
       {
         "rater_name": "OriginalityRater",
-        "total_score": 55.949999999999996,
-        "average_score": 9.325
+        "total_score": 43.05,
+        "average_score": 6.1499999999999995
       },
       {
         "rater_name": "PlotLogicRater",
-        "total_score": 106.2,
-        "average_score": 17.7
+        "total_score": 129.4,
+        "average_score": 18.485714285714288
       },
       {
         "rater_name": "StructureRater",
-        "total_score": 56.099999999999994,
-        "average_score": 9.35
-      }
-    ]
-  },
-  {
-    "model_version": "claude-opus-4-1-20250805",
-    "provider": "Anthropic",
-    "total_score": 408.15,
-    "average_score": 68.02499999999999,
-    "script_count": 6,
-    "rater_breakdown": [
-      {
-        "rater_name": "CharacterRater",
-        "total_score": 52.6,
-        "average_score": 8.766666666666667
-      },
-      {
-        "rater_name": "DialogueRater",
-        "total_score": 78.75,
-        "average_score": 13.125
-      },
-      {
-        "rater_name": "FormattingRater",
-        "total_score": 10.0,
-        "average_score": 1.6666666666666667
-      },
-      {
-        "rater_name": "ImpactRater",
-        "total_score": 75.75,
-        "average_score": 12.625
-      },
-      {
-        "rater_name": "OriginalityRater",
-        "total_score": 35.25,
-        "average_score": 5.875
-      },
-      {
-        "rater_name": "PlotLogicRater",
-        "total_score": 100.2,
-        "average_score": 16.7
-      },
-      {
-        "rater_name": "StructureRater",
-        "total_score": 55.599999999999994,
-        "average_score": 9.266666666666666
+        "total_score": 60.5,
+        "average_score": 8.642857142857142
       }
     ]
   },
   {
     "model_version": "claude-sonnet-4-5-20250929",
     "provider": "Anthropic",
-    "total_score": 403.1,
-    "average_score": 67.18333333333334,
-    "script_count": 6,
+    "total_score": 443.75,
+    "average_score": 63.392857142857146,
+    "script_count": 7,
     "rater_breakdown": [
       {
         "rater_name": "CharacterRater",
-        "total_score": 53.400000000000006,
-        "average_score": 8.9
+        "total_score": 56.0,
+        "average_score": 8.0
       },
       {
         "rater_name": "DialogueRater",
-        "total_score": 77.25,
-        "average_score": 12.875
+        "total_score": 66.0,
+        "average_score": 9.428571428571429
       },
       {
         "rater_name": "FormattingRater",
-        "total_score": 13.1,
-        "average_score": 2.183333333333333
+        "total_score": 11.75,
+        "average_score": 1.6785714285714286
       },
       {
         "rater_name": "ImpactRater",
-        "total_score": 78.45,
-        "average_score": 13.075000000000001
+        "total_score": 83.25,
+        "average_score": 11.892857142857142
       },
       {
         "rater_name": "OriginalityRater",
-        "total_score": 38.7,
-        "average_score": 6.45
+        "total_score": 44.25,
+        "average_score": 6.321428571428571
       },
       {
         "rater_name": "PlotLogicRater",
-        "total_score": 90.2,
-        "average_score": 15.033333333333333
+        "total_score": 124.0,
+        "average_score": 17.714285714285715
       },
       {
         "rater_name": "StructureRater",
-        "total_score": 52.0,
-        "average_score": 8.666666666666666
+        "total_score": 58.5,
+        "average_score": 8.357142857142858
+      }
+    ]
+  },
+  {
+    "model_version": "claude-opus-4-1-20250805",
+    "provider": "Anthropic",
+    "total_score": 423.35,
+    "average_score": 60.478571428571435,
+    "script_count": 7,
+    "rater_breakdown": [
+      {
+        "rater_name": "CharacterRater",
+        "total_score": 51.5,
+        "average_score": 7.357142857142857
+      },
+      {
+        "rater_name": "DialogueRater",
+        "total_score": 64.5,
+        "average_score": 9.214285714285714
+      },
+      {
+        "rater_name": "FormattingRater",
+        "total_score": 8.5,
+        "average_score": 1.2142857142857142
+      },
+      {
+        "rater_name": "ImpactRater",
+        "total_score": 81.75,
+        "average_score": 11.678571428571429
+      },
+      {
+        "rater_name": "OriginalityRater",
+        "total_score": 36.900000000000006,
+        "average_score": 5.271428571428572
+      },
+      {
+        "rater_name": "PlotLogicRater",
+        "total_score": 122.0,
+        "average_score": 17.428571428571427
+      },
+      {
+        "rater_name": "StructureRater",
+        "total_score": 58.2,
+        "average_score": 8.314285714285715
       }
     ]
   },
   {
     "model_version": "gpt-4o",
     "provider": "OpenAI",
-    "total_score": 353.05,
-    "average_score": 58.84166666666667,
-    "script_count": 6,
+    "total_score": 340.85,
+    "average_score": 48.69285714285714,
+    "script_count": 7,
     "rater_breakdown": [
       {
         "rater_name": "CharacterRater",
-        "total_score": 52.6,
-        "average_score": 8.766666666666667
+        "total_score": 43.2,
+        "average_score": 6.171428571428572
       },
       {
         "rater_name": "DialogueRater",
-        "total_score": 75.75,
-        "average_score": 12.625
+        "total_score": 57.0,
+        "average_score": 8.142857142857142
       },
       {
         "rater_name": "FormattingRater",
-        "total_score": 9.25,
-        "average_score": 1.5416666666666667
+        "total_score": 8.35,
+        "average_score": 1.1928571428571428
       },
       {
         "rater_name": "ImpactRater",
-        "total_score": 74.85,
-        "average_score": 12.475
+        "total_score": 65.4,
+        "average_score": 9.342857142857143
       },
       {
         "rater_name": "OriginalityRater",
-        "total_score": 30.3,
-        "average_score": 5.05
+        "total_score": 36.6,
+        "average_score": 5.228571428571429
       },
       {
         "rater_name": "PlotLogicRater",
-        "total_score": 71.4,
-        "average_score": 11.9
+        "total_score": 91.0,
+        "average_score": 13.0
       },
       {
         "rater_name": "StructureRater",
-        "total_score": 38.9,
-        "average_score": 6.483333333333333
+        "total_score": 39.3,
+        "average_score": 5.614285714285714
       }
     ]
   }

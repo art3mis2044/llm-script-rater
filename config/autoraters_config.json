@@ -5,56 +5,63 @@
       "prompt_file": "dialogue_rater_prompt.txt",
       "weight": 1.5,
       "provider": "Google",
-      "model_version": "gemini-2.5-flash-preview-05-20",
-      "query_function": "query_gemini"
+      "model_version": "gemini-3-flash-preview",
+      "query_function": "query_gemini",
+      "include_original_script_prompt": "yes"
     },
     {
       "name": "PlotLogicRater",
       "prompt_file": "plot_logic_rater_prompt.txt",
       "weight": 2.0,
       "provider": "openai",
-      "model_version": "gemini-2.5-flash-preview-05-20",
-      "query_function": "query_gemini"
+      "model_version": "gemini-3-pro-preview",
+      "query_function": "query_gemini",
+      "include_original_script_prompt": "yes"
     },
     {
       "name": "CharacterRater",
       "prompt_file": "character_rater_prompt.txt",
       "weight": 1.0,
       "provider": "openai",
-      "model_version": "gemini-2.5-flash-preview-05-20",
-      "query_function": "query_gemini"
+      "model_version": "gemini-3-flash-preview",
+      "query_function": "query_gemini",
+      "include_original_script_prompt": "yes"
     },
     {
       "name": "FormattingRater",
       "prompt_file": "formatting_rater_prompt.txt",
       "weight": 0.5,
       "provider": "google",
-      "model_version": "gemini-2.5-flash-preview-05-20",
-      "query_function": "query_gemini"
+      "model_version": "gemini-3-flash-preview",
+      "query_function": "query_gemini",
+      "include_original_script_prompt": "no"
     },
     {
       "name": "OriginalityRater",
       "prompt_file": "originality_rater_prompt.txt",
       "weight": 1.5,
       "provider": "google",
-      "model_version": "gemini-2.5-flash-preview-05-20",
-      "query_function": "query_gemini"
+      "model_version": "gemini-3-flash-preview",
+      "query_function": "query_gemini",
+      "include_original_script_prompt": "yes"
     },
     {
       "name": "StructureRater",
       "prompt_file": "structure_rater_prompt.txt",
       "weight": 1.0,
       "provider": "google",
-      "model_version": "gemini-2.5-flash-preview-05-20",
-      "query_function": "query_gemini"
+      "model_version": "gemini-3-flash-preview",
+      "query_function": "query_gemini",
+      "include_original_script_prompt": "yes"
     },
     {
       "name": "ImpactRater",
       "prompt_file": "emotionalimpact_rater_prompt.txt",
       "weight": 1.5,
       "provider": "google",
-      "model_version": "gemini-2.5-flash-preview-05-20",
-      "query_function": "query_gemini"
+      "model_version": "gemini-3-flash-preview",
+      "query_function": "query_gemini",
+      "include_original_script_prompt": "yes"
     }
   ]
 }
